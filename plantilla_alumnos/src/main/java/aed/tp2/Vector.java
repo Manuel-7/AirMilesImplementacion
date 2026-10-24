@@ -20,7 +20,7 @@ public class Vector {
     public void agregarAdelante(Usuario usuario){
         /*Algo aca siento que esta mal porque en el apunte dice que deberia ser complejidad O(f(n)) pero esto es O(n) */
         if(puntero == data.length){
-            redimencionar();
+            redimensionar();
         }
         for(int i = puntero; i > 0; i--){
             data[i] = data[i-1];            
@@ -29,7 +29,7 @@ public class Vector {
         puntero ++;
     }
 
-    public void redimencionar(){
+    public void redimensionar(){
         Usuario[] nuevoVector = new Usuario[this.data.length * 2];
         for(int i=0 ; i<puntero ; i++){
             nuevoVector[i] = data[i];
@@ -39,7 +39,7 @@ public class Vector {
 
     public void agregarAtras(Usuario usuario){
         if(puntero == data.length){
-            redimencionar();
+            redimensionar();
         }
         data[puntero] = usuario;
         puntero ++;
