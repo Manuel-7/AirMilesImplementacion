@@ -6,7 +6,7 @@ public class Promocion {
     private boolean tieneTope;
     private double tope; 
 
-    public Promocion(String nombre, int factor){
+    public Promocion(String nombre, double factor){
         this.nombre = nombre;
         this.factor = factor;
         this.tieneTope = false;
