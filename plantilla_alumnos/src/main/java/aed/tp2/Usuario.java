@@ -156,6 +156,21 @@ class Usuario implements Comparable<Usuario> {
         
     }
 
+    /*Consultar categoria */
+
+    public String categoria(){
+        if(this.Totales < 10000){
+            return "Bronce";
+        }else if (this.Totales < 50000){
+            return "Plata";
+        }else if(this.Totales < 1000000){
+            return "Oro";
+        }else{
+            return "Platino";
+        }
+
+    }
+
     @Override 
     public int compareTo(Usuario usuario){
         return this.ID - usuario.ID;
