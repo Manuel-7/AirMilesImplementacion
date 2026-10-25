@@ -36,6 +36,7 @@ class Trie {
     public Trie(){
         this.root = new Nodo();
         this.tamaño = 0;
+        agregar("No promo", 1);
     }
 
     public int tamaño(){
@@ -46,22 +47,28 @@ class Trie {
         if(tamaño() == 0){return false;}
         Nodo iterador = root.hijo;
         int i = 0;
-        while((iterador.promocion.nombre() != promo) && (iterador.hijo == null && iterador.hermano == null)){
-            posicionarse(iterador, promo, i);
-            if(iterador.promocion.nombre() == promo){
-                continue;
+        while(iterador.hijo == null || iterador.hermano == null){
+            if(iterador.letra == '$'){
+                if(iterador.promocion.nombre() == promo){
+                break;}
             }
-            if(iterador.hijo == null){
-                continue;
-            }else{
+            posicionamientoHorizontal(iterador, promo, i);                           
+            if(iterador.letra != promo.charAt(i)){
+                break;
+            }
+            else{
                 iterador = iterador.hijo;
                 i ++;
             }
         }  
-        return iterador.promocion.nombre() == promo;
+        if(iterador.letra =='$'){
+            return iterador.promocion.nombre() == promo;
+        }else{
+            return false;
+        }
     }
 
-    private void posicionarse(Nodo iterador,String promo, int i){
+    private void posicionamientoHorizontal(Nodo iterador,String promo, int i){
         while((iterador.letra > promo.charAt(i)) || (iterador.hermano != null)){
             iterador = iterador.hermano;
         }
@@ -72,22 +79,26 @@ class Trie {
             crearRama(root, 0, promo, factor);
             this.tamaño ++;
         }
+        else{
         Nodo iterador = root.hijo;
         int i = 0;
-        while((iterador.promocion.nombre() != promo) && (iterador.hijo == null && iterador.hermano == null)){
-            posicionarse(iterador, promo, i);
-            if(iterador.promocion.nombre() == promo){
-                continue;
+        while(iterador.hijo == null || iterador.hermano == null){
+            if(iterador.letra == '$'){
+                if(iterador.promocion.nombre() == promo){
+                break;}
             }
-            if(iterador.hijo == null){
-                continue;
-            }else{
+            posicionamientoHorizontal(iterador, promo, i);                           
+            if(iterador.letra != promo.charAt(i)){
+                break;
+            }
+            else{
                 iterador = iterador.hijo;
                 i ++;
             }
         }
-        if(iterador.promocion.nombre() == promo){
-            throw new UnsupportedOperationException("La promocion ya existe");
+        if(iterador.letra == '$'){
+            if(iterador.promocion.nombre() == promo){
+                throw new UnsupportedOperationException("La promocion ya existe");
         }
         else{
             if(iterador.letra == promo.charAt(i)){
@@ -98,12 +109,12 @@ class Trie {
                 iterador.hermano = new Nodo(promo.charAt(i));
                 crearRama(iterador.hermano, i++, promo, factor);
                 tamaño ++;
-            }
-        }
+            }}
+        }}
     }    
 
     private void crearRama(Nodo nodoInicial, int desde, String promo, double factor){
-        for(; desde < promo.length(); desde++){
+        for(;desde < promo.length(); desde++){
             nodoInicial.hijo = new Nodo(promo.charAt(desde));
             nodoInicial = nodoInicial.hijo;
         }
@@ -115,34 +126,38 @@ class Trie {
             crearRama(root, 0, promo, factor, tope);
             this.tamaño ++;
         }
+        else{
         Nodo iterador = root.hijo;
         int i = 0;
-        while((iterador.promocion.nombre() != promo) && (iterador.hijo == null && iterador.hermano == null)){
-            posicionarse(iterador, promo, i);
-            if(iterador.promocion.nombre() == promo){
-                continue;
+        while(iterador.hijo == null || iterador.hermano == null){
+            if(iterador.letra == '$'){
+                if(iterador.promocion.nombre() == promo){
+                break;}
             }
-            if(iterador.hijo == null){
-                continue;
-            }else{
+            posicionamientoHorizontal(iterador, promo, i);                           
+            if(iterador.letra != promo.charAt(i)){
+                break;
+            }
+            else{
                 iterador = iterador.hijo;
                 i ++;
             }
         }
-        if(iterador.promocion.nombre() == promo){
-            throw new UnsupportedOperationException("La promocion ya existe");
+        if(iterador.letra == '$'){
+            if(iterador.promocion.nombre() == promo){
+                throw new UnsupportedOperationException("La promocion ya existe");
         }
         else{
             if(iterador.letra == promo.charAt(i)){
-                crearRama(iterador,i,promo,factor, tope);   
-                tamaño ++;             
+                crearRama(iterador,i,promo,factor,tope); 
+                tamaño ++;               
             }
             else{
                 iterador.hermano = new Nodo(promo.charAt(i));
-                crearRama(iterador.hermano, i++, promo, factor);
+                crearRama(iterador.hermano, i++, promo, factor,tope);
                 tamaño ++;
-            }
-        }
+            }}
+        }}
     }
 
     private void crearRama(Nodo nodoInicial, int desde, String promo, double factor, int tope){
@@ -160,7 +175,7 @@ class Trie {
         Nodo iterador = root.hijo;
         int i = 0;
         while((iterador.promocion.nombre() != promo) && (iterador.hijo == null && iterador.hermano == null)){
-            posicionarse(iterador, promo, i);
+            posicionamientoHorizontal(iterador, promo, i);
             if(iterador.promocion.nombre() == promo){
                 continue;
             }
